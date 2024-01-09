@@ -23,8 +23,14 @@ export class Board {
   }
 
   tick() {
-    this.board[this.fallingCoords.y+1][this.fallingCoords.x] = this.board[this.fallingCoords.y][this.fallingCoords.x];
+    const newCoords = { ...this.fallingCoords, y: this.fallingCoords.y + 1 };
+    this.board[newCoords.y][newCoords.x] = this.board[this.fallingCoords.y][this.fallingCoords.x];
     this.board[this.fallingCoords.y][this.fallingCoords.x] = ".";
+    this.fallingCoords = newCoords;
+  }
+
+  hasFalling() {
+    return this.fallingCoords != null;
   }
 
   toString() {
