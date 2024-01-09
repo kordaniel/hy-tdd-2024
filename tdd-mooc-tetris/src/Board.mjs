@@ -23,9 +23,18 @@ export class Board {
   }
 
   tick() {
+    if (this.fallingCoords === null) {
+      return;
+    }
     const newCoords = { ...this.fallingCoords, y: this.fallingCoords.y + 1 };
+    if (newCoords.y === this.height) {
+      this.fallingCoords = null;
+      return;
+    }
+
     this.board[newCoords.y][newCoords.x] = this.board[this.fallingCoords.y][this.fallingCoords.x];
     this.board[this.fallingCoords.y][this.fallingCoords.x] = ".";
+
     this.fallingCoords = newCoords;
   }
 
