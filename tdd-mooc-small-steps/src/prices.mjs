@@ -25,7 +25,7 @@ function createApp(database) {
 
   function parseDate(dateString) {
     if (dateString) {
-      return new Date(dateString);
+      return Temporal.PlainDate.from(dateString);
     }
   }
 
@@ -69,11 +69,7 @@ function createApp(database) {
 
   function calculateReduction(date) {
     let reduction = 0;
-    if (!date) {
-      return reduction;
-    }
-    const temporalPlainDate = castDateToTemporalPlainDate(date);
-    if (isMonday(temporalPlainDate) && !isHoliday(temporalPlainDate)) {
+    if (date && isMonday(date) && !isHoliday(date)) {
       reduction = 35;
     }
     return reduction;
@@ -97,13 +93,6 @@ function createApp(database) {
       }
     }
     return false;
-  }
-
-  function castDateToTemporalPlainDate(date) {
-    return date
-      .toTemporalInstant()
-      .toZonedDateTimeISO("UTC")
-      .toPlainDate();
   }
 
   return app;
