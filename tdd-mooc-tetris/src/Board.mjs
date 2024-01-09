@@ -15,6 +15,9 @@ export class Board {
   }
 
   drop(shape) {
+    if (this.fallingCoords != null) {
+      throw new Error("already falling");
+    }
     this.fallingCoords = { y: 0, x: Math.floor(this.width / 2) }
     this.board[this.fallingCoords.y][this.fallingCoords.x] = shape;
   }
