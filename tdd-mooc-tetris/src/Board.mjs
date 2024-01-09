@@ -30,6 +30,9 @@ export class Board {
     if (newCoords.y === this.height) {
       this.fallingCoords = null;
       return;
+    } else if (this.board[newCoords.y][newCoords.x] != ".") {
+      this.fallingCoords = null;
+      return;
     }
 
     this.board[newCoords.y][newCoords.x] = this.board[this.fallingCoords.y][this.fallingCoords.x];
