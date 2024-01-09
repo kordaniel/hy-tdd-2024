@@ -13,6 +13,15 @@ export class RotatingShape {
     );
   }
 
+  rotateLeft() {
+    return new RotatingShape(
+      this.shape[0]
+        .map((_, i) => this.shape.map(row => row[row.length - 1 - i]))
+        .map(row => row.join(""))
+        .join("\n")
+    )
+  }
+
   toString() {
     return this.shape.map(row => row.join("")).join("\n") + "\n";
   }
