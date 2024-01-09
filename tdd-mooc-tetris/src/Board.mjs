@@ -2,6 +2,7 @@ export class Board {
   width;
   height;
   board;
+  fallingCoords;
 
   constructor(width, height) {
     this.width = width;
@@ -10,10 +11,17 @@ export class Board {
     for (let i = 0; i < this.height; i++) {
       this.board[i] = new Array(this.width).fill(".");
     }
+    this.fallingCoords = null;
   }
 
   drop(shape) {
-    this.board[0][Math.floor(this.width / 2)] = shape;
+    this.fallingCoords = { y: 0, x: Math.floor(this.width / 2) }
+    this.board[this.fallingCoords.y][this.fallingCoords.x] = shape;
+  }
+
+  tick() {
+    this.board[this.fallingCoords.y+1][this.fallingCoords.x] = this.board[this.fallingCoords.y][this.fallingCoords.x];
+    this.board[this.fallingCoords.y][this.fallingCoords.x] = ".";
   }
 
   toString() {
