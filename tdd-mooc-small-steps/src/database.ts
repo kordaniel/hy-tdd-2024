@@ -45,6 +45,12 @@ export class InMemoryDatabase implements Database {
   }
 
   getHolidays() {
-    return structuredClone(this.holidays);
+    /**
+     * structuredClone is not defined in old version of NodeJS:
+     *  - ts-node ver. 10.9.2
+     *  - nodeJs ver. 16.14.2
+     * return structuredClone(this.holidays);
+    */
+    return this.holidays.map(obj => ({ ...obj }));
   }
 }
