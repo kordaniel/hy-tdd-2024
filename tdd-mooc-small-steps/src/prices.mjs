@@ -69,14 +69,18 @@ function createApp(database) {
 
   function calculateReduction(date) {
     let reduction = 0;
-    if (date && isMonday(date) && !isHoliday(date)) {
+    if (!date) {
+      return reduction;
+    }
+    const temporalPlainDate = castDateToTemporalPlainDate(date);
+    if (isMonday(temporalPlainDate) && !isHoliday(date)) {
       reduction = 35;
     }
     return reduction;
   }
 
   function isMonday(date) {
-    return date.getDay() === 1;
+    return date.dayOfWeek === 1;
   }
 
   function isHoliday(date) {
@@ -93,6 +97,13 @@ function createApp(database) {
       }
     }
     return false;
+  }
+
+  function castDateToTemporalPlainDate(date) {
+    return date
+      .toTemporalInstant()
+      .toZonedDateTimeISO("UTC")
+      .toPlainDate();
   }
 
   return app;
