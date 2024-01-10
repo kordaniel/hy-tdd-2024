@@ -7,11 +7,14 @@ export class RotatingShape {
   }
 
   rotateRight() {
-    return new RotatingShape(
-      this.shape[0].map((_, i) => this.shape.map(row => row[i]).reverse()),
-      this.rotations,
-      this.rotation + 1 % this.rotations
-    );
+    if (this.rotation + 1 < this.rotations) {
+      return new RotatingShape(
+        this.shape[0].map((_, i) => this.shape.map(row => row[i]).reverse()),
+        this.rotations,
+        this.rotation + 1 % this.rotations
+      );
+    }
+    return Array.from(Array(this.rotation)).reduce((acc, _) => acc.rotateLeft(), this);
   }
 
   rotateLeft() {
