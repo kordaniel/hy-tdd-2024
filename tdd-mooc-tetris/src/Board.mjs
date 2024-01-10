@@ -23,7 +23,7 @@ export class Board {
     shape = (typeof shape === "string" || shape instanceof String) ? new RotatingShape(shape, 1) : shape; // Ugly hack => The given FallingBlocks test drops a string and I'm not sure if we are allowed to refactor it
     this.fallingCoords = {
       y: shape.height()-1,
-      x: Math.floor(this.width/2) - Math.floor(shape.width()/2),
+      x: Math.floor(this.width/2) - Math.floor(shape.width()/2) - (this.width % 2 == 0 ? 1 : 0),
       shape
     };
     for (let dy = 0; dy < shape.height(); dy++) {
@@ -47,7 +47,10 @@ export class Board {
     }
 
     for (let dy = 0; dy < newCoords.shape.height(); dy++) {
-      for (let dx = 0; dx < newCoords.shape.width(); dx++) { this.board[newCoords.y-dy][newCoords.x+dx] = this.board[newCoords.y-dy-1][newCoords.x+dx]; this.board[newCoords.y-dy-1][newCoords.x + dx] = "."; }
+      for (let dx = 0; dx < newCoords.shape.width(); dx++) {
+        this.board[newCoords.y-dy][newCoords.x+dx] = this.board[newCoords.y-dy-1][newCoords.x+dx];
+        this.board[newCoords.y-dy-1][newCoords.x + dx] = ".";
+      }
     }
 
     this.fallingCoords = newCoords;
