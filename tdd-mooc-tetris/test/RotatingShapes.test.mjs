@@ -35,13 +35,32 @@ describe("Rotating 3x3 shape", () => {
 });
 
 describe("Rotating 5x5 shape", () => {
-  const shape = new RotatingShape(
+  const shapeUpright =
     `ABCDE
      FGHIJ
      KLMNO
      PQRST
-     UVWXY`
-  );
+     UVWXY`;
+  const shapeRightRotated =
+    `UPKFA
+     VQLGB
+     WRMHC
+     XSNID
+     YTOJE`;
+  const shapeDownRotated =
+    `YXWVU
+     TSRQP
+     ONMLK
+     JIHGF
+     EDCBA`;
+  const shapeLeftRotated =
+    `EJOTY
+     DINSX
+     CHMRW
+     BGLQV
+     AFKPU`;
+
+  const shape = new RotatingShape(shapeUpright);
 
   test("initial orientation", () => {
     expect(shape.toString()).to.equalShape(
@@ -54,22 +73,64 @@ describe("Rotating 5x5 shape", () => {
   });
 
   test("can be rotated right/clockwise", () => {
-    expect(shape.rotateRight().toString()).to.equalShape(
-      `UPKFA
-       VQLGB
-       WRMHC
-       XSNID
-       YTOJE`
-    );
+    expect(shape.rotateRight().toString()).to.equalShape(shapeRightRotated);
+  });
+
+  test("can be rotated right/clockwise 2 times", () => {
+    expect(shape
+      .rotateRight()
+      .rotateRight()
+      .toString()
+    ).to.equalShape(shapeDownRotated);
+  });
+
+  test("can be rotated right/clockwise 3 times", () => {
+    expect(shape
+      .rotateRight()
+      .rotateRight()
+      .rotateRight()
+      .toString()
+    ).to.equalShape(shapeLeftRotated);
+  });
+
+  test("Rotated right/clockwise 4 times resets to original shape", () => {
+    expect(shape
+      .rotateRight()
+      .rotateRight()
+      .rotateRight()
+      .rotateRight()
+      .toString()
+    ).to.equalShape(shapeUpright);
   });
 
   test("can be rotated left/counter-clockwise", () => {
-    expect(shape.rotateLeft().toString()).to.equalShape(
-      `EJOTY
-       DINSX
-       CHMRW
-       BGLQV
-       AFKPU`
-    );
+    expect(shape.rotateLeft().toString()).to.equalShape(shapeLeftRotated);
+  });
+
+  test("can be rotated left/counter-clockwise 2 times", () => {
+    expect(shape
+      .rotateLeft()
+      .rotateLeft()
+      .toString()
+    ).to.equalShape(shapeDownRotated);
+  });
+
+  test("can be rotated left/counter-clockwise 3 times", () => {
+    expect(shape
+      .rotateLeft()
+      .rotateLeft()
+      .rotateLeft()
+      .toString()
+    ).to.equalShape(shapeRightRotated);
+  });
+
+  test("Rotated left/counter-clockwise 4 times resets to original shape", () => {
+    expect(shape
+      .rotateLeft()
+      .rotateLeft()
+      .rotateLeft()
+      .rotateLeft()
+      .toString()
+    ).to.equalShape(shapeUpright);
   });
 });
