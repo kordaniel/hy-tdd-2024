@@ -33,6 +33,14 @@ describe("Rotating 3x3 shape", () => {
     );
   });
 
+  test("Has correct height", () => {
+    expect(shape.width()).to.equal(3);
+  });
+
+  test("Has correct width", () => {
+    expect(shape.width()).to.equal(3);
+  });
+
   test("symbolAt returns correct symbol for row/col", () => {
     `ABCDEFGHI`.split("").forEach((c, i) =>
       expect(shape.symbolAt(Math.floor(i/3), i%3)).to.equal(c)
@@ -138,6 +146,14 @@ describe("Rotating 5x5 shape", () => {
       .rotateLeft()
       .toString()
     ).to.equalShape(shapeUpright);
+  });
+
+  test("Has correct height", () => {
+    expect(shape.width()).to.equal(5);
+  });
+
+  test("Has correct width", () => {
+    expect(shape.width()).to.equal(5);
   });
 
   test("symbolAt returns correct symbol for row/col", () => {

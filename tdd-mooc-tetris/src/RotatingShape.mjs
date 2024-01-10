@@ -31,6 +31,14 @@ export class RotatingShape {
     return Array.from(Array(this.rotations-1)).reduce((acc, _) => acc.rotateRight(), this);
   }
 
+  height() {
+    return this.shape.length;
+  }
+
+  width() {
+    return this.shape[0].length;
+  }
+
   symbolAt(y, x) {
     return this.shape[y][x];
   }
