@@ -21,9 +21,16 @@ export class Board {
       throw new Error("already falling");
     }
     shape = (typeof shape === "string" || shape instanceof String) ? new RotatingShape(shape, 1) : shape; // Ugly hack => The given FallingBlocks test drops a string and I'm not sure if we are allowed to refactor it
-    this.fallingCoords = { y: shape.height()-1, x: (Math.floor(this.width/2) - Math.floor(shape.width()/2)), shape };
-    for (let dy = 0; dy < shape.height(); dy++)
-      for (let dx = 0; dx < shape.width(); dx++) this.board[this.fallingCoords.y-(this.fallingCoords.shape.height()-1)+dy][this.fallingCoords.x+dx] = shape.symbolAt(dy, dx);
+    this.fallingCoords = {
+      y: shape.height()-1,
+      x: Math.floor(this.width/2) - Math.floor(shape.width()/2),
+      shape
+    };
+    for (let dy = 0; dy < shape.height(); dy++) {
+      for (let dx = 0; dx < shape.width(); dx++) {
+        this.board[this.fallingCoords.y-(this.fallingCoords.shape.height()-1)+dy][this.fallingCoords.x+dx] = shape.symbolAt(dy, dx);
+      }
+    }
   }
 
   tick() {
