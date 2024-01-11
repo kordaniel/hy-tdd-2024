@@ -49,6 +49,18 @@ export class Board {
     }
   }
 
+  moveLeft() {
+    if (!this.hasFalling()) {
+      return;
+    }
+    const blockCoords = this.fallingShapeBlockCoords(this.fallingState);
+    this.fallingState = { ...this.fallingState, x: this.fallingState.x-1 };
+    for (const pos of blockCoords) {
+      this.board[pos.y][pos.x-1] = this.board[pos.y][pos.x];
+      this.board[pos.y][pos.x] = ".";
+    }
+  }
+
   inBoundsAndEmpty(coords, dy, dx) {
     const boardCopy = this.board.map(row => row.slice());
     for (const pos of coords) {
