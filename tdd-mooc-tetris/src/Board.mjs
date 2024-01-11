@@ -17,7 +17,7 @@ export class Board {
   }
 
   drop(shape) {
-    if (this.fallingState != null) {
+    if (this.hasFalling()) {
       throw new Error("already falling");
     }
     shape = (typeof shape === "string" || shape instanceof String) ? new RotatingShape(shape, 1) : shape; // Ugly hack => The given FallingBlocks test drops a string and I'm not sure if we are allowed to refactor it
@@ -34,7 +34,7 @@ export class Board {
   }
 
   tick() {
-    if (this.fallingState === null) {
+    if (!this.hasFalling()) {
       return;
     }
     const blockCoords = this.fallingShapeBlockCoords(this.fallingState);
