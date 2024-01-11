@@ -4,7 +4,7 @@ export class Board {
   width;
   height;
   board;
-  fallingCoords;
+  fallingState;
 
   constructor(width, height) {
     this.width = width;
@@ -13,36 +13,36 @@ export class Board {
     for (let i = 0; i < this.height; i++) {
       this.board[i] = new Array(this.width).fill(".");
     }
-    this.fallingCoords = null;
+    this.fallingState = null;
   }
 
   drop(shape) {
-    if (this.fallingCoords != null) {
+    if (this.fallingState != null) {
       throw new Error("already falling");
     }
     shape = (typeof shape === "string" || shape instanceof String) ? new RotatingShape(shape, 1) : shape; // Ugly hack => The given FallingBlocks test drops a string and I'm not sure if we are allowed to refactor it
-    this.fallingCoords = {
+    this.fallingState = {
       y: shape.height()-1,
       x: Math.floor(this.width/2) - Math.floor(shape.width()/2) - (this.width % 2 == 0 ? 1 : 0),
       shape
     };
     for (let dy = 0; dy < shape.height(); dy++) {
       for (let dx = 0; dx < shape.width(); dx++) {
-        this.board[this.fallingCoords.y-(this.fallingCoords.shape.height()-1)+dy][this.fallingCoords.x+dx] = shape.symbolAt(dy, dx);
+        this.board[this.fallingState.y-(this.fallingState.shape.height()-1)+dy][this.fallingState.x+dx] = shape.symbolAt(dy, dx);
       }
     }
   }
 
   tick() {
-    if (this.fallingCoords === null) {
+    if (this.fallingState === null) {
       return;
     }
-    const blockCoords = this.fallingShapeBlockCoords(this.fallingCoords);
+    const blockCoords = this.fallingShapeBlockCoords(this.fallingState);
     if (!this.inBoundsAndEmpty(blockCoords, 1, 0)) {
-      this.fallingCoords = null;
+      this.fallingState = null;
       return;
     }
-    this.fallingCoords = { ...this.fallingCoords, y: this.fallingCoords.y+1 };
+    this.fallingState = { ...this.fallingState, y: this.fallingState.y+1 };
     for (const pos of blockCoords) {
       this.board[pos.y+1][pos.x] = this.board[pos.y][pos.x];
       this.board[pos.y][pos.x] = ".";
@@ -69,23 +69,23 @@ export class Board {
     return y >= 0 && y < this.board.length && x >= 0 && x < this.board[y].length;
   }
 
-  fallingShapeBlockCoords(fallingCoords) {
+  fallingShapeBlockCoords(fallingStateObj) {
     // NOTE: Passes all current tests, but will probably cause problems later
-    // =>    Scanning a rectangluar region that might contain other tetrominoes
+    // =>    Scanning a rectangular region that might contain other tetrominoes
     const blockCoords = []
-    for (let dy = (fallingCoords.shape.height()-1); dy >= 0; dy--) { // Iterate starting from bottom row
-      for (let dx = 0; dx < fallingCoords.shape.width(); dx++) {
-        if (fallingCoords.shape.symbolAt(dy, dx) == ".") {
+    for (let dy = (fallingStateObj.shape.height()-1); dy >= 0; dy--) { // Iterate starting from bottom row
+      for (let dx = 0; dx < fallingStateObj.shape.width(); dx++) {
+        if (fallingStateObj.shape.symbolAt(dy, dx) == ".") {
           continue;
         }
-        blockCoords.push({ y: fallingCoords.y-(fallingCoords.shape.height()-1)+dy, x: fallingCoords.x+dx });
+        blockCoords.push({ y: fallingStateObj.y-(fallingStateObj.shape.height()-1)+dy, x: fallingStateObj.x+dx });
       }
     }
     return blockCoords;
   }
 
   hasFalling() {
-    return this.fallingCoords != null;
+    return this.fallingState != null;
   }
 
   toString() {
