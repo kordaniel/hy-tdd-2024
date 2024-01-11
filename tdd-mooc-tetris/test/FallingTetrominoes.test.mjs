@@ -177,7 +177,7 @@ describe("Falling tetrominoes", () => {
         );
       });
 
-      test.skip("to floor", () => {
+      test("to floor", () => {
         board.moveDown();
         board.moveDown();
         board.moveDown();
@@ -198,7 +198,7 @@ describe("Falling tetrominoes", () => {
           }
         })
 
-        test.skip("it is still moving on the last row", () => {
+        test("it is still moving on the last row", () => {
           expect(board.toString()).to.equalShape(
             `..........
              ..........
