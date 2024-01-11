@@ -37,23 +37,47 @@ export class Board {
     if (this.fallingCoords === null) {
       return;
     }
-    const newCoords = { ...this.fallingCoords, y: this.fallingCoords.y+1 };
-    if (newCoords.y === this.height) {
-      this.fallingCoords = null;
-      return;
-    } else if (this.board[newCoords.y][newCoords.x] != ".") {
+    const blockCoords = this.fallingShapeBlockCoords(this.fallingCoords);
+    if (!this.inBoundsAndEmpty(blockCoords, 1, 0)) {
       this.fallingCoords = null;
       return;
     }
+    this.fallingCoords = { ...this.fallingCoords, y: this.fallingCoords.y+1 };
+    for (const pos of blockCoords) {
+      this.board[pos.y+1][pos.x] = this.board[pos.y][pos.x];
+      this.board[pos.y][pos.x] = ".";
+    }
+  }
 
-    for (let dy = 0; dy < newCoords.shape.height(); dy++) {
-      for (let dx = 0; dx < newCoords.shape.width(); dx++) {
-        this.board[newCoords.y-dy][newCoords.x+dx] = this.board[newCoords.y-dy-1][newCoords.x+dx];
-        this.board[newCoords.y-dy-1][newCoords.x + dx] = ".";
+  inBoundsAndEmpty(coords, dy, dx) {
+    const boardCopy = this.board.map(row => row.slice());
+    for (const pos of coords) {
+      if (pos.y+dy < 0 || pos.y+dy >= this.board.length || pos.x+dx < 0 || pos.x+dx >= this.board[pos.y+dy].length) {
+        return false;
+      }
+      boardCopy[pos.y][pos.x] = null; // Mark prev position to distinct it from other tetrominoes
+    }
+    for (const pos of coords) {
+      if (boardCopy[pos.y+dy][pos.x+dx] != null && boardCopy[pos.y+dy][pos.x+dx] != ".") {
+        return false;
       }
     }
+    return true;
+  }
 
-    this.fallingCoords = newCoords;
+  fallingShapeBlockCoords(fallingCoords) {
+    // NOTE: Passes all current tests, but will probably cause problems later
+    // =>    Scanning a rectangluar region that might contain other tetrominoes
+    const blockCoords = []
+    for (let dy = (fallingCoords.shape.height()-1); dy >= 0; dy--) { // Iterate starting from bottom row
+      for (let dx = 0; dx < fallingCoords.shape.width(); dx++) {
+        if (fallingCoords.shape.symbolAt(dy, dx) == ".") {
+          continue;
+        }
+        blockCoords.push({ y: fallingCoords.y-(fallingCoords.shape.height()-1)+dy, x: fallingCoords.x+dx });
+      }
+    }
+    return blockCoords;
   }
 
   hasFalling() {
