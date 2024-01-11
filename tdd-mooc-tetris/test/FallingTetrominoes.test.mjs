@@ -87,7 +87,7 @@ describe("Falling tetrominoes", () => {
         );
       });
 
-      test.skip("to the wall", () => {
+      test("to the wall", () => {
         board.moveLeft();
         board.moveLeft();
         expect(board.toString()).to.equalShape(
