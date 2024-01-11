@@ -223,7 +223,7 @@ describe("Falling tetrominoes", () => {
           expect(board.hasFalling()).to.be.false;
         });
 
-        test.skip("it stays on the floor after stopping", () => {
+        test("it stays on the floor after stopping", () => {
           fallToBottom(board);
           expect(board.toString()).to.equalShape(
             `..........
@@ -233,6 +233,7 @@ describe("Falling tetrominoes", () => {
              ....T.....
              ...TTT....`
           );
+          expect(board.hasFalling()).to.be.false;
         })
       });
     });
