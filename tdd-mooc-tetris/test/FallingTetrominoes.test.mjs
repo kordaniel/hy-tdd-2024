@@ -132,7 +132,7 @@ describe("Falling tetrominoes", () => {
         );
       });
 
-      test.skip("to the wall", () => {
+      test("to the wall", () => {
         board.moveRight();
         board.moveRight();
         board.moveRight();
@@ -146,7 +146,7 @@ describe("Falling tetrominoes", () => {
         );
       });
 
-      test.skip("to the wall but not beyond", () => {
+      test("to the wall but not beyond", () => {
         for (let _ = 0; _ < 2*BOARD_WIDTH; _++) {
           board.moveRight();
         }
