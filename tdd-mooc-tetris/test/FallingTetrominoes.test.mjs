@@ -166,7 +166,7 @@ describe("Falling tetrominoes", () => {
         board.moveDown();
       })
 
-      test.skip("by one row", () => {
+      test("by one row", () => {
         expect(board.toString()).to.equalShape(
           `..........
            ....T.....

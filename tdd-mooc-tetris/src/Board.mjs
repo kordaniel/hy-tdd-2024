@@ -49,6 +49,10 @@ export class Board {
     }
   }
 
+  moveDown() {
+    this.moveFalling(1, 0, (a, b) => a.y == b.y ? a.x-b.x : b.y-a.y);
+  }
+
   moveLeft() {
     this.moveFalling(0, -1, (a, b) => a.x == b.x ? a.y-b.y : a.x-b.x);
   }
