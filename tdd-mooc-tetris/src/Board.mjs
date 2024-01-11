@@ -52,7 +52,7 @@ export class Board {
   inBoundsAndEmpty(coords, dy, dx) {
     const boardCopy = this.board.map(row => row.slice());
     for (const pos of coords) {
-      if (pos.y+dy < 0 || pos.y+dy >= this.board.length || pos.x+dx < 0 || pos.x+dx >= this.board[pos.y+dy].length) {
+      if (!this.inBounds(pos.y+dy, pos.x+dx)) {
         return false;
       }
       boardCopy[pos.y][pos.x] = null; // Mark prev position to distinct it from other tetrominoes
@@ -63,6 +63,10 @@ export class Board {
       }
     }
     return true;
+  }
+
+  inBounds(y, x) {
+    return y >= 0 && y < this.board.length && x >= 0 && x < this.board[y].length;
   }
 
   fallingShapeBlockCoords(fallingCoords) {
