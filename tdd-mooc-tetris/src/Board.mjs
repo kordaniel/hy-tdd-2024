@@ -54,6 +54,9 @@ export class Board {
       return;
     }
     const blockCoords = this.fallingShapeBlockCoords(this.fallingState);
+    if (!this.inBoundsAndEmpty(blockCoords, 0, -1)) {
+      return;
+    }
     this.fallingState = { ...this.fallingState, x: this.fallingState.x-1 };
     for (const pos of blockCoords) {
       this.board[pos.y][pos.x-1] = this.board[pos.y][pos.x];
