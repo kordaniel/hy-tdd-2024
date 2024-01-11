@@ -50,16 +50,20 @@ export class Board {
   }
 
   moveLeft() {
+    this.moveFalling(0, -1);
+  }
+
+  moveFalling(dy, dx) {
     if (!this.hasFalling()) {
       return;
     }
     const blockCoords = this.fallingShapeBlockCoords(this.fallingState);
-    if (!this.inBoundsAndEmpty(blockCoords, 0, -1)) {
+    if (!this.inBoundsAndEmpty(blockCoords, dy, dx)) {
       return;
     }
-    this.fallingState = { ...this.fallingState, x: this.fallingState.x-1 };
+    this.fallingState = { ...this.fallingState, y: this.fallingState.y+dy, x: this.fallingState.x+dx };
     for (const pos of blockCoords) {
-      this.board[pos.y][pos.x-1] = this.board[pos.y][pos.x];
+      this.board[pos.y+dy][pos.x+dx] = this.board[pos.y][pos.x];
       this.board[pos.y][pos.x] = ".";
     }
   }
