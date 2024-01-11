@@ -50,30 +50,40 @@ export class Board {
   }
 
   moveDown() {
-    this.moveFalling(1, 0, (a, b) => a.y == b.y ? a.x-b.x : b.y-a.y);
+    if (!this.hasFalling) {
+      return;
+    }
+    const positionChanged = this.moveFalling(1, 0, (a, b) => a.y == b.y ? a.x-b.x : b.y-a.y);
+    if (!positionChanged) {
+      this.fallingState = null;
+    }
   }
 
   moveLeft() {
+    if (!this.hasFalling()) {
+      return;
+    }
     this.moveFalling(0, -1, (a, b) => a.x == b.x ? a.y-b.y : a.x-b.x);
   }
 
   moveRight() {
+    if (!this.hasFalling()) {
+      return;
+    }
     this.moveFalling(0, 1, (a, b) => a.x == b.x ? a.y-b.y : b.x-a.x);
   }
 
   moveFalling(dy, dx, sortByCb) {
-    if (!this.hasFalling()) {
-      return;
-    }
     const blockCoords = this.fallingShapeBlockCoords(this.fallingState).sort(sortByCb);
     if (!this.inBoundsAndEmpty(blockCoords, dy, dx)) {
-      return;
+      return false;
     }
     this.fallingState = { ...this.fallingState, y: this.fallingState.y+dy, x: this.fallingState.x+dx };
     for (const pos of blockCoords) {
       this.board[pos.y+dy][pos.x+dx] = this.board[pos.y][pos.x];
       this.board[pos.y][pos.x] = ".";
     }
+    return true;
   }
 
   inBoundsAndEmpty(coords, dy, dx) {

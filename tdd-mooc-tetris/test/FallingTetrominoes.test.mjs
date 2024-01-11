@@ -210,7 +210,7 @@ describe("Falling tetrominoes", () => {
           expect(board.hasFalling()).to.be.true;
         });
 
-        test.skip("it stops when it hits the floor", () => {
+        test("it stops when it hits the floor", () => {
           board.moveDown();
           expect(board.toString()).to.equalShape(
             `..........
