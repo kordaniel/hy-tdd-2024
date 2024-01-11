@@ -121,7 +121,7 @@ describe("Falling tetrominoes", () => {
         board.moveRight();
       });
 
-      test.skip("by one column", () => {
+      test("by one column", () => {
         expect(board.toString()).to.equalShape(
           `.....T....
            ....TTT...

@@ -50,14 +50,18 @@ export class Board {
   }
 
   moveLeft() {
-    this.moveFalling(0, -1);
+    this.moveFalling(0, -1, (a, b) => a.x == b.x ? a.y-b.y : a.x-b.x);
   }
 
-  moveFalling(dy, dx) {
+  moveRight() {
+    this.moveFalling(0, 1, (a, b) => a.x == b.x ? a.y-b.y : b.x-a.x);
+  }
+
+  moveFalling(dy, dx, sortByCb) {
     if (!this.hasFalling()) {
       return;
     }
-    const blockCoords = this.fallingShapeBlockCoords(this.fallingState);
+    const blockCoords = this.fallingShapeBlockCoords(this.fallingState).sort(sortByCb);
     if (!this.inBoundsAndEmpty(blockCoords, dy, dx)) {
       return;
     }
