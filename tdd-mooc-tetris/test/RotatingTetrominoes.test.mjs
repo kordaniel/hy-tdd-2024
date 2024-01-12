@@ -26,6 +26,15 @@ describe("The T shape", () => {
     );
   });
 
+  test("returns all initial active coords", () => {
+    expect(shape.getCoords()).to.deep.equal([
+      { y: 0, x: 1 },
+      { y: 1, x: 0 },
+      { y: 1, x: 1 },
+      { y: 1, x: 2 }
+    ]);
+  });
+
   test("can be rotated right/clockwise", () => {
     expect(shape.rotateRight().toString()).to.equalShape(
       `.T.
@@ -34,12 +43,30 @@ describe("The T shape", () => {
     );
   });
 
+  test("returns all active coords after rotating right", () => {
+    expect(shape.rotateRight().getCoords()).to.deep.equal([
+      { y: 0, x: 1 },
+      { y: 1, x: 1 },
+      { y: 1, x: 2 },
+      { y: 2, x: 1 }
+    ]);
+  });
+
   test("can be rotated left/counter-clockwise", () => {
     expect(shape.rotateLeft().toString()).to.equalShape(
       `.T.
        TT.
        .T.`
     );
+  });
+
+  test("returns all active coords after rotating left", () => {
+    expect(shape.rotateLeft().getCoords()).to.deep.equal([
+      { y: 0, x: 1 },
+      { y: 1, x: 0 },
+      { y: 1, x: 1 },
+      { y: 2, x: 1 }
+    ]);
   });
 
   test("has 4 distinct orientations", () => {
@@ -60,6 +87,15 @@ describe("The I shape", () => {
     );
   });
 
+  test("returns all initial active coords", () => {
+    expect(shape.getCoords()).to.deep.equal([
+      { y: 2, x: 0 },
+      { y: 2, x: 1 },
+      { y: 2, x: 2 },
+      { y: 2, x: 3 }
+    ]);
+  });
+
   test("can be rotated right/clockwise", () => {
     expect(shape.rotateRight().toString()).to.equalShape(
       `..I..
@@ -78,6 +114,15 @@ describe("The I shape", () => {
        ..I..
        .....`
     );
+  });
+
+  test("returns all active coords after rotating", () => {
+    expect(shape.rotateRight().getCoords()).to.deep.equal([
+      { y: 0, x: 2 },
+      { y: 1, x: 2 },
+      { y: 2, x: 2 },
+      { y: 3, x: 2 }
+    ]);
   });
 
   test("has 2 distinct orientations", () => {

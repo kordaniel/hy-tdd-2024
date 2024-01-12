@@ -41,6 +41,13 @@ describe("Rotating 3x3 shape", () => {
     expect(shape.width()).to.equal(3);
   });
 
+  test("Returns all shape coords", () => {
+    expect(shape.getCoords()).to.deep.equal(Array(3)
+      .fill([...Array(3)])
+      .map((row, y) => row.map((_, x) => ({ y, x}))).flat()
+    );
+  });
+
   test("symbolAt returns correct symbol for row/col", () => {
     `ABCDEFGHI`.split("").forEach((c, i) =>
       expect(shape.symbolAt(Math.floor(i/3), i%3)).to.equal(c)
@@ -154,6 +161,13 @@ describe("Rotating 5x5 shape", () => {
 
   test("Has correct width", () => {
     expect(shape.width()).to.equal(5);
+  });
+
+  test("Returns all shape coords", () => {
+    expect(shape.getCoords()).to.deep.equal(Array(5)
+      .fill([...Array(5)])
+      .map((row, y) => row.map((_, x) => ({ y, x}))).flat()
+    );
   });
 
   test("symbolAt returns correct symbol for row/col", () => {

@@ -2,11 +2,16 @@ export class RotatingShape {
   shape;
   rotations;
   rotation;
+  coords;
 
   constructor(shape, rotations = 4, rotation = 0) {
     this.shape = Array.isArray(shape) ? shape : shape.split("\n").map(l => l.trim().split(""));
     this.rotations = rotations;
     this.rotation = rotation;
+    this.coords = this.shape.reduce((rowAcc, rowCur, y) => [
+        ...rowAcc,
+        rowCur.reduce((colAcc, colCur, x) => colCur === "." ? colAcc : [ ...colAcc, { y, x } ], [])
+      ], []).flat(); // List with all coords of the shape: [ {y, x}, {y, x}, ... ]
   }
 
   rotateRight() {
@@ -29,6 +34,10 @@ export class RotatingShape {
       );
     }
     return Array.from(Array(this.rotations-1)).reduce((acc, _) => acc.rotateRight(), this);
+  }
+
+  getCoords() {
+    return this.coords;
   }
 
   height() {
