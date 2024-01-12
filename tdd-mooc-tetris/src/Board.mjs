@@ -80,7 +80,12 @@ export class Board {
   }
 
   moveFalling(dy, dx, sortByCb) {
-    const blockCoords = this.fallingShapeBlockCoords(this.fallingState).sort(sortByCb);
+    const topY = this.fallingState.y - (this.fallingState.shape.height() - 1);
+    const leftX = this.fallingState.x;
+    const blockCoords = this.fallingState.shape.getCoords()
+      .map(pos => ({ y: topY + pos.y, x: leftX + pos.x }))
+      .sort(sortByCb);
+
     if (!this.inBoundsAndEmpty(blockCoords, dy, dx)) {
       return false;
     }
