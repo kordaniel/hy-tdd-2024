@@ -260,7 +260,7 @@ describe("Falling tetrominoes", () => {
         fallToBottom(board);
       });
 
-      test.skip("in right direction", () => {
+      test("in right direction", () => {
         board.drop(Tetromino.O_SHAPE);
         board.tick();
         callFuncRepeatedly(10, () => board.moveRight());
@@ -284,7 +284,7 @@ describe("Falling tetrominoes", () => {
         );
       });
 
-      test.skip("in left direction", () => {
+      test("in left direction", () => {
         board.drop(Tetromino.O_SHAPE);
         board.tick();
         callFuncRepeatedly(10, () => board.moveLeft());
@@ -308,7 +308,7 @@ describe("Falling tetrominoes", () => {
         );
       });
 
-      test.skip("when moving down and stops when hitting", () => {
+      test("when moving down and stops when hitting", () => {
         board.drop(Tetromino.T_SHAPE.rotateRight().rotateRight());
         fallToBottom(board);
         expect(board.toString()).to.equalShape(
