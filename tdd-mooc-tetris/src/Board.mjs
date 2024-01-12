@@ -43,16 +43,7 @@ export class Board {
     if (!this.hasFalling()) {
       return;
     }
-    const blockCoords = this.fallingShapeBlockCoords(this.fallingState);
-    if (!this.inBoundsAndEmpty(blockCoords, 1, 0)) {
-      this.fallingState = null;
-      return;
-    }
-    this.fallingState = { ...this.fallingState, y: this.fallingState.y+1 };
-    for (const pos of blockCoords) {
-      this.board[pos.y+1][pos.x] = this.board[pos.y][pos.x];
-      this.board[pos.y][pos.x] = ".";
-    }
+    this.moveDown();
   }
 
   moveDown() {
@@ -119,21 +110,6 @@ export class Board {
 
   isEmpty(y, x) {
     return this.board[y][x] == ".";
-  }
-
-  fallingShapeBlockCoords(fallingStateObj) {
-    // NOTE: Passes all current tests, but will probably cause problems later
-    // =>    Scanning a rectangular region that might contain other tetrominoes
-    const blockCoords = []
-    for (let dy = (fallingStateObj.shape.height()-1); dy >= 0; dy--) { // Iterate starting from bottom row
-      for (let dx = 0; dx < fallingStateObj.shape.width(); dx++) {
-        if (fallingStateObj.shape.symbolAt(dy, dx) == ".") {
-          continue;
-        }
-        blockCoords.push({ y: fallingStateObj.y-(fallingStateObj.shape.height()-1)+dy, x: fallingStateObj.x+dx });
-      }
-    }
-    return blockCoords;
   }
 
   hasFalling() {
