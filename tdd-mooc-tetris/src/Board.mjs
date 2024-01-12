@@ -26,10 +26,16 @@ export class Board {
       x: Math.floor(this.width/2) - Math.floor(shape.width()/2) - (this.width % 2 == 0 ? 1 : 0),
       shape
     };
-    for (let dy = 0; dy < shape.height(); dy++) {
-      for (let dx = 0; dx < shape.width(); dx++) {
-        this.board[this.fallingState.y-(this.fallingState.shape.height()-1)+dy][this.fallingState.x+dx] = shape.symbolAt(dy, dx);
+
+    for (const pos of this.fallingState.shape.getCoords()) {
+      if (!this.isEmpty(pos.y, this.fallingState.x + pos.x)) {
+        this.fallingState = null;
+        return;
       }
+    }
+
+    for (const pos of this.fallingState.shape.getCoords()) {
+      this.board[pos.y][this.fallingState.x + pos.x] = shape.symbolAt(pos.y, pos.x);
     }
   }
 
@@ -104,6 +110,10 @@ export class Board {
 
   inBounds(y, x) {
     return y >= 0 && y < this.board.length && x >= 0 && x < this.board[y].length;
+  }
+
+  isEmpty(y, x) {
+    return this.board[y][x] == ".";
   }
 
   fallingShapeBlockCoords(fallingStateObj) {
